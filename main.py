@@ -1,14 +1,14 @@
 import random
 import time
 import telebot
+import hidden_settings
 
-from .hidden_settings import *
 from asyncio import set_event_loop, new_event_loop
 from telethon.sync import TelegramClient
 
-TG_API_ID = API_ID
-TG_API_HASH = API_HASH
-TG_BOT_TOKEN = BOT_TOKEN
+TG_API_ID = hidden_settings.API_ID
+TG_API_HASH = hidden_settings.API_HASH
+TG_BOT_TOKEN = hidden_settings.BOT_TOKEN
 bot = telebot.TeleBot(TG_BOT_TOKEN)
 bot_name = bot.get_me().username
 
