@@ -47,7 +47,6 @@ def tag_all_participant(message):
     for user in all_users:
         # пропускаем, если отправитель или бот
         if user.username == from_user or user.bot:
-            count += 1
             continue
 
         # eсли нет username, тегаем по first_name
