@@ -72,7 +72,7 @@ def tag_all_participant(message):
         count += 1
 
         # отправляем пачкой по limit или то, что осталось
-        if count % limit == 0 or count == all_users_count:
+        if count % limit == 0 or count == (all_users_count - 1):
             message_part = random.choice(WAR_CRY)
             bot.send_message(
                 message.chat.id, f'{message_part} {participants} '
