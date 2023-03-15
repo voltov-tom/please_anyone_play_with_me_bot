@@ -36,8 +36,12 @@ def tag_all_participant(message):
     :param message: triggered message to get all params
     :return: sent messages
     """
-    from_user = message.from_user.username
     chat_id = message.chat.id
+    print('chat_id: ' + str(chat_id))
+    if chat_id != -1001787523639:
+        return
+
+    from_user = message.from_user.username
     all_users = get_all_chat_users(chat_id)
     all_users_count = len(all_users)
     limit = 5
@@ -47,6 +51,7 @@ def tag_all_participant(message):
     for user in all_users:
         # пропускаем, если отправитель или бот
         if user.username == from_user or user.bot:
+            count += 1
             continue
 
         # eсли нет username, тегаем по first_name
@@ -63,16 +68,13 @@ def tag_all_participant(message):
         # специально для стаса и сережи
         if (from_user == 'stasucan' or from_user == 'gnu_brsk') and (
                 participant == '@stasucan' or participant == '@gnu_brsk'):
-            bot.send_message(
-                message.chat.id, f'Эй пидр! {participant}'
-            )
+            participants += f'Эй пидр! {participant} '
         else:
             participants += participant + ' '
 
         count += 1
-
         # отправляем пачкой по limit или то, что осталось
-        if count % limit == 0 or count == (all_users_count - 1):
+        if count % limit == 0 or count == all_users_count:
             message_part = random.choice(WAR_CRY)
             bot.send_message(
                 message.chat.id, f'{message_part} {participants} '
