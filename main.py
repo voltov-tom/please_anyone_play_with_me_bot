@@ -38,13 +38,13 @@ def tag_all_participant(message):
     """
     chat_id = message.chat.id
     print('chat_id: ' + str(chat_id))
-    if chat_id != -1001787523639:
+    if chat_id != -1001787523639:  # КЛПД
         return
 
     from_user = message.from_user.username
     all_users = get_all_chat_users(chat_id)
     all_users_count = len(all_users)
-    limit = 5
+    group_users = 0
     count = 0
     participants = ''
 
@@ -65,19 +65,30 @@ def tag_all_participant(message):
 
         participant = '@' + user.username
 
+        # специально для mrRozhin
+        if participant == '@mrRozhin':
+            bot.send_message(
+                message.chat.id, f'{participant}: "Сосать господин судья"'
+            )
         # специально для стаса и сережи
-        if (from_user == 'stasucan' or from_user == 'gnu_brsk') and (
+        elif (from_user == 'stasucan' or from_user == 'gnu_brsk') and (
                 participant == '@stasucan' or participant == '@gnu_brsk'):
-            participants += f'Эй пидр! {participant} '
+            bot.send_message(
+                message.chat.id, f'Эй пидр! {participant} '
+            )
         else:
             participants += participant + ' '
+            group_users += 1
 
         count += 1
-        # отправляем пачкой по limit или то, что осталось
-        if count % limit == 0 or count == all_users_count:
-            message_part = random.choice(WAR_CRY)
+        # отправляем пачкой по 5 или то, что осталось
+        if group_users % 5 == 0 or count == all_users_count:
+            # message_part = random.choice(WAR_CRY)
+            # bot.send_message(
+            #     message.chat.id, f'{message_part} {participants} '
+            # )
             bot.send_message(
-                message.chat.id, f'{message_part} {participants} '
+                message.chat.id, f'{participants} '
             )
             participants = ''
             time.sleep(0.5)
