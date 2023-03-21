@@ -26,7 +26,7 @@ WAR_CRY = [
 
 
 @bot.message_handler(commands=['тест'])
-def tag_all_participant(message):
+def tag_all_participant_test(message):
     chat_id = message.chat.id
     print('chat_id: ' + str(chat_id))
     if chat_id != -1001787523639:  # КЛПД
