@@ -27,7 +27,63 @@ WAR_CRY = [
 
 @bot.message_handler(commands=['тест'])
 def tag_all_participant(message):
-    bot.send_message(message.chat.id, 'тест')
+    chat_id = message.chat.id
+    print('chat_id: ' + str(chat_id))
+    if chat_id != -1001787523639:  # КЛПД
+        return
+
+    from_user = message.from_user.username
+    all_users = get_all_chat_users(chat_id)
+    print('all_users', all_users)
+    all_users_count = len(all_users)
+    print('all_users_count', all_users_count)
+    group_users = 0
+    count = 0
+    participants = ''
+    for user in all_users:
+        if user.username:
+            print(user.username, count)
+        else:
+            print(user.first_name, count)
+
+        # пропускаем, если отправитель или бот
+        if user.username == from_user or user.bot:
+            count += 1
+            print(from_user)
+            continue
+
+        # eсли нет username, тегаем по first_name
+        if user.username is None and user.first_name:
+            mention = f'<a href="tg://user?id={user.id}">{user.first_name}</a>'
+            count += 1
+            print(mention)
+            continue
+
+        participant = '@' + user.username
+
+        # специально для mrRozhin
+        if participant == '@mrRozhin':
+            print(f'{participant}: "Сосать господин судья"')
+        # специально для стаса и сережи
+        elif (from_user == 'stasucan' or from_user == 'gnu_brsk') and (
+                participant == '@stasucan' or participant == '@gnu_brsk'):
+            print(f'Эй пидр! {participant} ')
+        else:
+            participants += participant + ' '
+            group_users += 1
+            print(participants)
+        count += 1
+        # отправляем пачкой по 5 или то, что осталось
+        if group_users % 5 == 0 or count == all_users_count:
+            # message_part = random.choice(WAR_CRY)
+            # bot.send_message(
+            #     message.chat.id, f'{message_part} {participants} '
+            # )
+            print(
+                message.chat.id, f'{participants} '
+            )
+            participants = ''
+            time.sleep(0.5)
 
 
 @bot.message_handler(commands=['ъ'])
