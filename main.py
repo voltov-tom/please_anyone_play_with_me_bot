@@ -80,7 +80,7 @@ def tag_all_participant_test(message):
             #     message.chat.id, f'{message_part} {participants} '
             # )
             print(
-                message.chat.id, f'{participants} '
+                f'{participants} '
             )
             participants = ''
             time.sleep(0.5)
