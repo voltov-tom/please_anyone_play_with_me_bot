@@ -34,9 +34,7 @@ def tag_all_participant_test(message):
 
     from_user = message.from_user.username
     all_users = get_all_chat_users(chat_id)
-    print('all_users', all_users)
     all_users_count = len(all_users)
-    print('all_users_count', all_users_count)
     group_users = 0
     count = 0
     participants = ''
