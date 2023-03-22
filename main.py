@@ -1,7 +1,7 @@
 import random
-import time
 import telebot
 
+from time import ctime, time, sleep
 from asyncio import set_event_loop, new_event_loop
 from telethon.sync import TelegramClient
 
@@ -28,7 +28,8 @@ WAR_CRY = [
 @bot.message_handler(commands=['тест'])
 def tag_all_participant_test(message):
     chat_id = message.chat.id
-    print('chat_id: ' + str(chat_id))
+    print('тест', ctime(time()))
+    print('chat_id:', str(chat_id))
     if chat_id != -1001787523639:  # КЛПД
         return
 
@@ -39,10 +40,8 @@ def tag_all_participant_test(message):
     count = 0
     participants = ''
     for user in all_users:
-        if user.username:
-            print(user.username, count)
-        else:
-            print(user.first_name, count)
+        print(count)
+        print(user.username) if user.username else print(user.first_name)
 
         # пропускаем, если отправитель или бот
         if user.username == from_user or user.bot:
@@ -52,7 +51,7 @@ def tag_all_participant_test(message):
 
         # eсли нет username, тегаем по first_name
         if user.username is None and user.first_name:
-            mention = f'<a href="tg://user?id={user.id}">{user.first_name}</a>'
+            mention = f'Message: <a href="tg://user?id={user.id}">{user.first_name}</a>'
             count += 1
             print(mention)
             continue
@@ -61,11 +60,11 @@ def tag_all_participant_test(message):
 
         # специально для mrRozhin
         if participant == '@mrRozhin':
-            print(f'{participant}: "Сосать господин судья"')
+            print(f'Message: {participant}: "Сосать господин судья"')
         # специально для стаса и сережи
         elif (from_user == 'stasucan' or from_user == 'gnu_brsk') and (
                 participant == '@stasucan' or participant == '@gnu_brsk'):
-            print(f'Эй пидр! {participant} ')
+            print(f'Message: Эй пидр! {participant} ')
         else:
             participants += participant + ' '
             group_users += 1
@@ -77,11 +76,9 @@ def tag_all_participant_test(message):
             # bot.send_message(
             #     message.chat.id, f'{message_part} {participants} '
             # )
-            print(
-                f'{participants} '
-            )
+            print(f'Message: {participants}')
             participants = ''
-            time.sleep(0.5)
+            sleep(0.5)
 
 
 @bot.message_handler(commands=['ъ'])
@@ -91,7 +88,7 @@ def tag_all_participant(message):
     :return: sent messages
     """
     chat_id = message.chat.id
-    print('chat_id: ' + str(chat_id))
+    print(ctime(time()), str(chat_id))
     if chat_id != -1001787523639:  # КЛПД
         return
 
@@ -145,7 +142,7 @@ def tag_all_participant(message):
                 message.chat.id, f'{participants} '
             )
             participants = ''
-            time.sleep(0.5)
+            sleep(0.5)
 
 
 def get_all_chat_users(chat_id):
