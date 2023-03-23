@@ -5,24 +5,13 @@ from time import ctime, time, sleep
 from asyncio import set_event_loop, new_event_loop
 from telethon.sync import TelegramClient
 
-from config import API_ID, API_HASH, BOT_TOKEN
+from config import API_ID, API_HASH, BOT_TOKEN, WAR_CRY
 
 TG_API_ID = API_ID
 TG_API_HASH = API_HASH
 TG_BOT_TOKEN = BOT_TOKEN
 bot = telebot.TeleBot(TG_BOT_TOKEN)
 bot_name = bot.get_me().username
-
-WAR_CRY = [
-    'Только псина не стреляет во вражину!',
-    'Давай ебашить!',
-    'Время убивать!',
-    'Нужно больше комрадов!',
-    'Пиво, девки, Валорант!',
-    'Го катать, ёпта!',
-    'Катка сама себя не скатает!',
-    'Поиграем?',
-]
 
 
 @bot.message_handler(commands=['тест'])
@@ -39,6 +28,7 @@ def tag_all_participant_test(message):
     group_users = 0
     count = 0
     participants = ''
+
     for user in all_users:
         print(count)
         print(user.username) if user.username else print(user.first_name)
@@ -62,14 +52,16 @@ def tag_all_participant_test(message):
         if participant == '@mrRozhin':
             print(f'Message: {participant}: "Сосать господин судья"')
         # специально для стаса и сережи
-        elif (from_user == 'stasucan' or from_user == 'gnu_brsk') and (
-                participant == '@stasucan' or participant == '@gnu_brsk'):
+        elif from_user == 'stasucan' and participant == '@gnu_brsk':
+            print(f'Message: Эй пидр! {participant} ')
+        elif from_user == 'gnu_brsk' and participant == '@stasucan':
             print(f'Message: Эй пидр! {participant} ')
         else:
             participants += participant + ' '
             group_users += 1
             print(participants)
         count += 1
+
         # отправляем пачкой по 5 или то, что осталось
         if group_users % 5 == 0 or count == all_users_count:
             # message_part = random.choice(WAR_CRY)
@@ -122,8 +114,11 @@ def tag_all_participant(message):
                 message.chat.id, f'{participant}: "Сосать господин судья"'
             )
         # специально для стаса и сережи
-        elif (from_user == 'stasucan' or from_user == 'gnu_brsk') and (
-                participant == '@stasucan' or participant == '@gnu_brsk'):
+        elif from_user == 'stasucan' and participant == '@gnu_brsk':
+            bot.send_message(
+                message.chat.id, f'Эй пидр! {participant} '
+            )
+        elif from_user == 'gnu_brsk' and participant == '@stasucan':
             bot.send_message(
                 message.chat.id, f'Эй пидр! {participant} '
             )
