@@ -6,6 +6,7 @@ from asyncio import set_event_loop, new_event_loop
 from telethon.sync import TelegramClient
 
 from config import API_ID, API_HASH, BOT_TOKEN, WAR_CRY
+from parsing import get_random_picture_src
 
 TG_API_ID = API_ID
 TG_API_HASH = API_HASH
@@ -21,6 +22,8 @@ def tag_all_participant_test(message):
     print('chat_id:', str(chat_id))
     if chat_id != -1001787523639:  # КЛПД
         return
+
+    print(get_random_picture_src())
 
     from_user = message.from_user.username
     all_users = get_all_chat_users(chat_id)
@@ -83,6 +86,8 @@ def tag_all_participant(message):
     print(ctime(time()), str(chat_id))
     if chat_id != -1001787523639:  # КЛПД
         return
+
+    bot.send_photo(message.chat.id, get_random_picture_src())
 
     from_user = message.from_user.username
     all_users = get_all_chat_users(chat_id)
