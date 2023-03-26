@@ -1,12 +1,25 @@
 import requests
 
-from random import choice
 from bs4 import BeautifulSoup
 
 
 def get_random_picture_src():
-    url = 'https://www.google.com/search?q=valorant+meme&newwindow=1&client=safari&rls=en&sxsrf=AJOqlzV654H14JhZ43J2TyBqUQwFA2dU-g:1679584892775&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiIs52nrfL9AhXRFXcKHWWBCxsQ_AUoAXoECAEQAw&biw=1536&bih=800&dpr=1'
+    url = 'https://joyreactor.cc'
     site = requests.get(url)
     soup = BeautifulSoup(site.text, 'lxml')
-    img = choice(soup.find_all('img'))
+    div = soup.find('div', {'class': 'image'})
+    img = div.find('img')
     return img['src']
+
+
+def get_random_gif_src():
+    url = 'https://joyreactor.cc/tag/гифки'
+    site = requests.get(url)
+    soup = BeautifulSoup(site.text, 'lxml')
+    span = soup.find('a', {'class': 'video_gif_source'})
+    return span['href']
+
+
+if __name__ == '__main__':
+    print('https:' + get_random_picture_src())
+    print('https:' + get_random_gif_src())
