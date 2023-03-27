@@ -9,7 +9,7 @@ def get_random_picture_src():
     soup = BeautifulSoup(site.text, 'lxml')
     div = soup.find('div', {'class': 'image'})
     img = div.find('img')
-    return img['src']
+    return 'https:' + img['src']
 
 
 def get_random_gif_src():
@@ -17,7 +17,7 @@ def get_random_gif_src():
     site = requests.get(url)
     soup = BeautifulSoup(site.text, 'lxml')
     span = soup.find('a', {'class': 'video_gif_source'})
-    return span['href']
+    return 'https:' + span['href']
 
 
 if __name__ == '__main__':

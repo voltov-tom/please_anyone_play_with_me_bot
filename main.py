@@ -96,7 +96,6 @@ def tag_all_participant(message):
     from_user = message.from_user.username
     all_users = get_all_chat_users(chat_id)
     all_users_count = len(all_users)
-    group_users = 0
     count = 0
     participants = ''
 
@@ -133,20 +132,15 @@ def tag_all_participant(message):
             )
         else:
             participants += participant + ' '
-            group_users += 1
 
         count += 1
-        # отправляем пачкой по 5 или то, что осталось
-        if group_users % 5 == 0 or count == all_users_count:
-            # message_part = random.choice(WAR_CRY)
-            # bot.send_message(
-            #     message.chat.id, f'{message_part} {participants} '
-            # )
+
+        # отправляем пачкой
+        if count == all_users_count:
             bot.send_message(
                 message.chat.id, f'{participants} '
             )
             participants = ''
-            sleep(0.5)
 
 
 def get_all_chat_users(chat_id):
