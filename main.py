@@ -75,12 +75,13 @@ def tag_all_participant(message):
 
         count += 1
 
-        # отправляем пачкой
-        if count == all_users_count:
+        # отправляем пачкой по limit или то, что осталось
+        if (count % 5 == 0 and participants != '') or count == all_users_count:
             bot.send_message(
                 message.chat.id, f'{participants} '
             )
             participants = ''
+            sleep(0.5)
 
 
 def get_all_chat_users(chat_id):
