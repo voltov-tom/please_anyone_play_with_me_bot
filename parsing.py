@@ -1,8 +1,7 @@
 import os
-from random import choice
-
 import requests
 
+from random import choice
 from os import walk
 from bs4 import BeautifulSoup
 
