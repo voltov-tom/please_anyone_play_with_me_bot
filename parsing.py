@@ -1,8 +1,7 @@
-import os
 import requests
 
 from random import choice
-from os import walk
+from os import walk, makedirs, path
 from bs4 import BeautifulSoup
 
 
@@ -24,7 +23,7 @@ def get_random_gif_src():
     gif_name = span['href'][-11:]
     gif_local_name = './gifs/' + gif_name
 
-    os.makedirs(os.path.dirname(gif_local_name), exist_ok=True)
+    makedirs(path.dirname(gif_local_name), exist_ok=True)
 
     with open(gif_local_name, 'wb') as f:
         response = requests.get('https:' + span['href'])
