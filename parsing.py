@@ -25,9 +25,10 @@ def get_random_gif_src():
 
     makedirs(path.dirname(gif_local_name), exist_ok=True)
 
-    with open(gif_local_name, 'wb') as f:
-        response = requests.get('https:' + span['href'])
-        f.write(response.content)
+    if not path.exists(gif_local_name):
+        with open(gif_local_name, 'wb') as f:
+            response = requests.get('https:' + span['href'])
+            f.write(response.content)
 
     return gif_local_name
 
