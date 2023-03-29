@@ -5,7 +5,7 @@ from time import ctime, time, sleep
 from asyncio import set_event_loop, new_event_loop
 from telethon.sync import TelegramClient
 
-from config import API_ID, API_HASH, BOT_TOKEN, WAR_CRY
+from config import API_ID, API_HASH, BOT_TOKEN, WAR_CRY, TAG_COMMANDS
 from parsing import get_random_picture_src, get_random_gif_src
 
 TG_API_ID = API_ID
@@ -15,7 +15,34 @@ bot = telebot.TeleBot(TG_BOT_TOKEN)
 bot_name = bot.get_me().username
 
 
-@bot.message_handler(commands=['ъ'])
+@bot.message_handler(content_types=['text'])
+def test(message):
+    """
+    :param message: triggered message to get all params
+    :return:
+    """
+    msg = message.text.lower()
+    if msg in ['gif', 'гиф']:
+        get_gif(message)
+    if msg in TAG_COMMANDS:
+        tag_all_participant(message)
+
+
+def get_gif(message):
+    """
+    :param message: triggered message to get all params
+    :return: sent gif message
+    """
+    chat_id = message.chat.id
+
+    try:
+        gif = open(get_random_gif_src(), 'rb')
+        bot.send_animation(chat_id, gif)
+        gif.close()
+    except:
+        bot.send_photo(message.chat.id, 'https://memepedia.ru/wp-content/uploads/2017/07/%D1%85%D0%BE%D1%85%D0%BE%D1%87%D1%83%D1%89%D0%B8%D0%B9-%D0%B8%D1%81%D0%BF%D0%B0%D0%BD%D0%B5%D1%86.jpg')
+
+
 def tag_all_participant(message):
     """
     :param message: triggered message to get all params
