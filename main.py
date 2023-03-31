@@ -18,7 +18,7 @@ bot_name = bot.get_me().username
 @bot.message_handler(content_types=['text'])
 def test(message):
     """
-    :param message: triggered message to get all params
+    :param message: messages handler to trigger definition
     :return:
     """
     msg = message.text.lower()
@@ -31,7 +31,7 @@ def test(message):
 def get_gif(message):
     """
     :param message: triggered message to get all params
-    :return: sent gif message
+    :return: sent gif message or picture
     """
     chat_id = message.chat.id
 
