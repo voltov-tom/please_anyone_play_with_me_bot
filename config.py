@@ -7,6 +7,7 @@ load_dotenv()
 API_ID = os.getenv('PEPWM_BOT_API_ID')
 API_HASH = os.getenv('PEPWM_BOT_API_HASH')
 BOT_TOKEN = os.getenv('PEPWM_BOT_BOT_TOKEN')
+ALLOWED_CHATS = os.getenv('PEPWM_ALLOWED_CHATS').split(',')
 
 WAR_CRY = [
     'Только псина не стреляет во вражину!',
@@ -27,9 +28,4 @@ TAG_COMMANDS = [
     'сбор',
     'милфысюда',
     'дедпоспел',
-]
-
-ALLOWED_CHATS = [
-    1134285848,  # @voltovtom
-    -1001787523639,  # КЛПД
 ]
