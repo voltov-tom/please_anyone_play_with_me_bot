@@ -25,22 +25,27 @@ def entry_def(message):
         return
 
     msg = message.text.lower()
-    message_hour = ctime(message.date).split(' ')[4][:2]
-
-    # ограничение на ночь
-    if int(message_hour) not in range(9, 23):
-        bot.send_message(message.chat.id, 'Все уже спят...')
-        return
 
     if msg in ['gif', 'гиф']:
         get_gif(message)
-    if msg in TAG_COMMANDS:
+    if msg in TAG_COMMANDS and good_night(message):
         tag_all_participant(message)
         sleep(300)
     if msg == '123':
         now = ctime(time())
         test(message, now)
         sleep(20)
+# TODO добавить быструю ссылку на дискорд, быстрое отображение, кто в голосовом чате
+
+
+# ограничение на ночь
+def good_night(message):
+    message_hour = ctime(message.date).split(' ')[4][:2]
+    if int(message_hour) not in range(9, 23):
+        bot.send_message(message.chat.id, 'Все уже спят...')
+        return False
+    else:
+        return True
 
 
 def test(message, now):
