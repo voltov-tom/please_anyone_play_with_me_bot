@@ -9,8 +9,9 @@ from parsing import get_random_gif_src
 TG_API_ID = API_ID
 TG_API_HASH = API_HASH
 TG_BOT_TOKEN = BOT_TOKEN
+LAST_BOT_MSG = 0
+
 bot = telebot.TeleBot(TG_BOT_TOKEN, threaded=False)
-bot_name = bot.get_me().username
 
 
 @bot.message_handler(content_types=['text'])
@@ -28,14 +29,30 @@ def entry_def(message):
 
     if msg in ['gif', 'гиф']:
         get_gif(message)
-    if msg in TAG_COMMANDS and good_night(message):
+    if msg in TAG_COMMANDS and good_night(message) and time_diff(message):
         tag_all_participant(message)
-        sleep(300)
     if msg == '123':
         now = ctime(time())
         test(message, now)
         sleep(20)
+
+
 # TODO добавить быструю ссылку на дискорд, быстрое отображение, кто в голосовом чате
+
+
+# анти-спам
+def time_diff(message):
+    global LAST_BOT_MSG
+    msg_time = int(message.date)
+    if LAST_BOT_MSG == 0:
+        LAST_BOT_MSG = msg_time
+        return True
+    else:
+        if msg_time - LAST_BOT_MSG > 300:
+            LAST_BOT_MSG = msg_time
+            return True
+        else:
+            return False
 
 
 # ограничение на ночь
