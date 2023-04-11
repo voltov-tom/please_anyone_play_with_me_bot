@@ -3,8 +3,9 @@ import telebot
 from time import ctime, time, sleep
 from asyncio import set_event_loop, new_event_loop
 from telethon.sync import TelegramClient
-from config import API_ID, API_HASH, BOT_TOKEN, TAG_COMMANDS, ALLOWED_CHATS
+
 from parsing import get_random_gif_src
+from config import API_ID, API_HASH, BOT_TOKEN, TAG_COMMANDS, ALLOWED_CHATS
 
 TG_API_ID = API_ID
 TG_API_HASH = API_HASH
