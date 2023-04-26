@@ -1,6 +1,6 @@
 import telebot
 
-from time import ctime, time, sleep
+from time import ctime, time
 from asyncio import set_event_loop, new_event_loop
 from telethon.sync import TelegramClient
 
@@ -32,10 +32,8 @@ def entry_def(message):
         get_gif(message)
     if msg in TAG_COMMANDS and good_night(message) and time_diff(message):
         tag_all_participant(message)
-    if msg == '123':
-        now = ctime(time())
-        test(message, now)
-        sleep(20)
+    if msg == 'тест':
+        test(message)
 
 
 # TODO добавить быструю ссылку на дискорд, быстрое отображение, кто в голосовом чате
@@ -59,15 +57,66 @@ def time_diff(message):
 # ограничение на ночь
 def good_night(message):
     message_hour = ctime(message.date).split(' ')[4][:2]
-    if int(message_hour) not in range(9, 23):
+    if int(message_hour) not in range(9, 22):
         bot.send_message(message.chat.id, 'Все уже спят...')
         return False
     else:
         return True
 
 
-def test(message, now):
-    bot.send_message(message.chat.id, now)
+def test(message):
+    from_user = message.from_user.username
+    all_users = get_all_chat_users(message.chat.id)
+    all_users_count = len(all_users)
+    count = 0
+    participants = []
+    print(f'all_users_count={all_users_count}')
+
+    for user in all_users:
+        # пропускаем, если отправитель или бот
+        if user.username == from_user or user.bot:
+            count += 1
+            continue
+
+        # eсли нет username, тегаем по first_name
+        if user.username is None and user.first_name:
+            print(user.first_name)
+            count += 1
+            continue
+
+        participant = '@' + user.username
+
+        # специально для mrRozhin
+        if participant == '@mrRozhin':
+            print(
+                f'{participant}: "Сосать господин судья"'
+            )
+            count += 1
+        # специально для стаса и сережи
+        elif from_user == 'stasucan' and participant == '@gnu_brsk':
+            print(
+                f'Эй пидр! {participant} '
+            )
+            count += 1
+        elif from_user == 'gnu_brsk' and participant == '@stasucan':
+            print(
+                f'Эй пидр! {participant} '
+            )
+            count += 1
+        else:
+            participants.append(participant)
+
+    print(f'participants={participants}')
+    message = ''
+
+    for participant in participants:
+        print(count)
+        count += 1
+        message += participant + ' '
+        if count % 5 == 0 or count == all_users_count:
+            print(message)
+            message = ''
+    return
 
 
 def get_gif(message):
@@ -95,7 +144,7 @@ def tag_all_participant(message):
     all_users = get_all_chat_users(message.chat.id)
     all_users_count = len(all_users)
     count = 0
-    participants = ''
+    participants = []
 
     for user in all_users:
         # пропускаем, если отправитель или бот
@@ -119,26 +168,30 @@ def tag_all_participant(message):
             bot.send_message(
                 message.chat.id, f'{participant}: "Сосать господин судья"'
             )
+            count += 1
         # специально для стаса и сережи
         elif from_user == 'stasucan' and participant == '@gnu_brsk':
             bot.send_message(
                 message.chat.id, f'Эй пидр! {participant} '
             )
+            count += 1
         elif from_user == 'gnu_brsk' and participant == '@stasucan':
             bot.send_message(
                 message.chat.id, f'Эй пидр! {participant} '
             )
+            count += 1
         else:
-            participants += participant + ' '
+            participants.append(participant)
 
+    tag_msg = ''
+    for participant in participants:
         count += 1
-
-        # отправляем пачкой по limit или то, что осталось
-        if (count % 5 == 0 and participants != '') or count == all_users_count:
+        tag_msg += participant + ' '
+        if count % 5 == 0 or count == all_users_count:
             bot.send_message(
-                message.chat.id, f'{participants} '
+                message.chat.id, f'{tag_msg} '
             )
-            participants = ''
+            tag_msg = ''
 
 
 def get_all_chat_users(chat_id):
