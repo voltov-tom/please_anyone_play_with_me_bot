@@ -36,6 +36,13 @@ def entry_def(message):
         test(message)
 
 
+# отслеживание новых участников
+@bot.message_handler(content_types=['new_chat_members'])
+def handler_new_member(message):
+    user_name = message.new_chat_members[0].first_name
+    bot.send_message(message.chat.id, f'Ëктырмантыщко, {user_name}!')
+
+
 # TODO добавить быструю ссылку на дискорд, быстрое отображение, кто в голосовом чате
 
 
