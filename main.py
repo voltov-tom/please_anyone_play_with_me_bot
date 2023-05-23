@@ -99,6 +99,7 @@ def test(message):
                 f'{participant}: "Сосать господин судья"'
             )
             count += 1
+        # специально для HomKaBrut
         elif participant == '@HomKaBrut':
             print(
                 f'{participant}: "Вуф господин судья"'
