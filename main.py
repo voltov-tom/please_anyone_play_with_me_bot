@@ -99,6 +99,11 @@ def test(message):
                 f'{participant}: "Сосать господин судья"'
             )
             count += 1
+        elif participant == '@HomKaBrut':
+            print(
+                f'{participant}: "Вуф господин судья'
+            )
+            count += 1
         # специально для стаса и сережи
         elif from_user == 'stasucan' and participant == '@gnu_brsk':
             print(
