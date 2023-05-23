@@ -101,7 +101,7 @@ def test(message):
             count += 1
         elif participant == '@HomKaBrut':
             print(
-                f'{participant}: "Вуф господин судья'
+                f'{participant}: "Вуф господин судья"'
             )
             count += 1
         # специально для стаса и сережи
