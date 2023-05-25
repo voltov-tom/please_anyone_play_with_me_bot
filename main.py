@@ -63,7 +63,7 @@ def time_diff(message):
 
 # ограничение на ночь
 def good_night(message):
-    message_hour = ctime(message.date).split(' ')[4][:2]
+    message_hour = ctime(message.date).split(' ')[3][:2]
     if int(message_hour) not in range(9, 22):
         bot.send_message(message.chat.id, 'Все уже спят...')
         return False
@@ -180,6 +180,12 @@ def tag_all_participant(message):
         if participant == '@mrRozhin':
             bot.send_message(
                 message.chat.id, f'{participant}: "Сосать господин судья"'
+            )
+            count += 1
+        # специально для Андрея
+        elif participant == '@HomKaBrut':
+            bot.send_message(
+                message.chat.id, f'{participant}: "Вуф господин судья"'
             )
             count += 1
         # специально для стаса и сережи
