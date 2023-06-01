@@ -63,8 +63,9 @@ def time_diff(message):
 
 # ограничение на ночь
 def good_night(message):
-    message_hour = ctime(message.date).split(' ')[3][:2]
-    if int(message_hour) not in range(9, 22):
+    message_hour = ctime(message.date).split(' ')
+    message_hour.remove('')
+    if int(message_hour[3][:2]) not in range(9, 22):
         bot.send_message(message.chat.id, 'Все уже спят...')
         return False
     else:
