@@ -5,7 +5,8 @@ from asyncio import set_event_loop, new_event_loop
 from telethon.sync import TelegramClient
 
 from parsing import get_random_gif_src
-from config import API_ID, API_HASH, BOT_TOKEN, TAG_COMMANDS, ALLOWED_CHATS
+from config import API_ID, API_HASH, BOT_TOKEN, TAG_COMMANDS, ALLOWED_CHATS, TAG_COMMANDS_DEEP_ROCK, \
+    PARTICIPANTS_DEEP_ROCK
 
 TG_API_ID = API_ID
 TG_API_HASH = API_HASH
@@ -32,6 +33,8 @@ def entry_def(message):
         get_gif(message)
     if msg in TAG_COMMANDS and good_night(message) and time_diff(message):
         tag_all_participant(message)
+    if msg in TAG_COMMANDS_DEEP_ROCK and good_night(message) and time_diff(message):
+        tag_deep_rock_participant(message)
     if msg == 'тест':
         test(message)
 
@@ -148,6 +151,14 @@ def get_gif(message):
     except:
         bot.send_photo(message.chat.id, 'https://memepedia.ru/wp-content/uploads/2017/07/%D1%85%D0%BE%D1%85%D0%BE%D1%87%D1%83%D1%89%D0%B8%D0%B9-%D0%B8%D1%81%D0%BF%D0%B0%D0%BD%D0%B5%D1%86.jpg')
         bot.send_message(message.chat.id, 'еррор')
+
+
+def tag_deep_rock_participant(message):
+    from_user = message.from_user.username
+    for user in PARTICIPANTS_DEEP_ROCK:
+        if user == from_user:
+            continue
+        bot.send_message(message.chat.id, 'Копать @' + user)
 
 
 def tag_all_participant(message):

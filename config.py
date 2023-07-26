@@ -33,3 +33,16 @@ TAG_COMMANDS = [
     'псы войны',
     'го катку',
 ]
+
+TAG_COMMANDS_DEEP_ROCK = [
+    'шахта',
+    'копать',
+    'антижучес',
+]
+
+PARTICIPANTS_DEEP_ROCK = [
+    'daemae',
+    'gnu_brsk',
+    'HomKaBrut',
+    'voltovtom',
+]
