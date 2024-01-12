@@ -8,7 +8,7 @@ from telethon.sync import TelegramClient
 
 from db_connector import create_db, check_user_in_chat, dont_tag_user_anywhere, check_user_status, \
     select_tags, select_games, select_users_for_game, add_new_game_name, add_game_tags_sql, select_all_users, \
-    change_to_tag_list
+    change_to_tag_list, get_players_sql
 from parsing import get_random_gif_src
 from config import API_ID, API_HASH, BOT_TOKEN, DEVELOPER_ID
 
@@ -64,6 +64,9 @@ def entry_def(message):
         return
     if msg == '/get_tags':
         get_game_name(message)
+        return
+    if msg == '/get_players':
+        get_players(message)
         return
 
     # ищем тэг в сообщении
@@ -214,6 +217,19 @@ def tag_participants(message, game):
         bot.send_message(message.chat.id, '@' + user[1])
 
 
+# получить игроков для игры
+def get_players(message):
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    for game in select_games():
+        games_keyboard = types.InlineKeyboardButton(text=game, callback_data='get_players_' + game)
+        keyboard.add(games_keyboard)
+
+    stop_button = types.InlineKeyboardButton(text='---Скрыть меню---', callback_data='hide_')
+    keyboard.add(stop_button)
+
+    bot.send_message(message.chat.id, 'В какой игре посмотреть?', reply_markup=keyboard)
+
+
 # TODO добавить быструю ссылку на дискорд, быстрое отображение, кто в голосовом чате
 
 
@@ -349,6 +365,22 @@ def callback_inline(call):
 
     USERS_FOR_NEW_GAME = []
     NEW_GAME_NAME = ''
+
+
+# обработчик для получения тегов
+@bot.callback_query_handler(func=lambda call: call.data.startswith('get_players_'))
+def callback_inline(call):
+    call.data = call.data.replace('get_players_', '')
+    bot.delete_message(call.message.chat.id, call.message.id)
+
+    players = ''
+    for user in get_players_sql(call.data):
+        if user[1] == 'NULL':
+            players += f'{user[2]}\n'
+            continue
+        players += f'@{user[1]}\n'
+
+    bot.send_message(call.message.chat.id, f'Играют в {call.data}: \n{players}')
 
 
 # обработчик для скрытия клавиатуры

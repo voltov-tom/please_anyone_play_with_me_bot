@@ -253,3 +253,14 @@ def select_all_users():
     sql_result = conn.execute(f'''SELECT first_name, id FROM users;''').fetchall()
     conn.close()
     return sql_result
+
+
+def get_players_sql(game_name):
+    conn = sqlite3.connect(db_path)
+    sql_result = conn.execute(f'''
+                                SELECT id, user_name, first_name 
+                                FROM users
+                                WHERE {game_name} = 1;
+                                ''').fetchall()
+    conn.close()
+    return sql_result
