@@ -47,7 +47,6 @@ def entry_def(message):
     if msg in ['gif', 'гиф']:
         get_gif(message)
         return
-    # комент
     if msg == '/change_participation':
         change_participation(message)
         return
